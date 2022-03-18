@@ -4,16 +4,13 @@ import ReactDOM from 'react-dom';
 //? import App from './App';
 //?import reportWebVitals from './reportWebVitals';
 
-const element2 = <div><h1 className='my-title'>Hello World !!</h1></div>
+
+setInterval(() => {
+  const element = <div><h1>{ new Date().getSeconds() }</h1><p>123</p></div>;
+  ReactDOM.render( element , document.getElementById('root'));
+}, 1000);
 
 
-
-const element  = React.createElement('div', {className: 'container'}, React.createElement('h1', {className: 'my-title'}, "Hello World !"));
-
-ReactDOM.render(
-  element2,
-  document.getElementById('root')
-);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
