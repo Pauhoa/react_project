@@ -4,11 +4,28 @@ import ReactDOM from 'react-dom';
 //? import App from './App';
 //?import reportWebVitals from './reportWebVitals';
 
+const Composant2 = (props) => {
+  return <h1>{props.name}</h1>
+}
 
-setInterval(() => {
-  const element = <div><h1>{ new Date().getSeconds() }</h1><p>123</p></div>;
-  ReactDOM.render( element , document.getElementById('root'));
-}, 1000);
+class Composant1 extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div>
+        <Composant2 name="c2-1"></Composant2>
+        <Composant2 name="c2-2"/>
+      </div>
+    )
+  }
+}
+
+
+ReactDOM.render( <Composant1 name="world !!!" /> , document.getElementById('root'));
 
 
 
