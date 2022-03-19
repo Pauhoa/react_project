@@ -1,36 +1,22 @@
-import React from "react";
+import React, {Component} from "react";
 import ReactDOM from "react-dom";
-//? import './index.css';
 //? import App from './App';
 //?import reportWebVitals from './reportWebVitals';
+import Composant1 from './components/composant1/Composant1'
 
-class Composant1 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      compteur: 0,
-    };
-  }
-
-  increment = (event) => {
-    this.setState({
-      compteur: this.state.compteur + 1
-    })
-  }
-
+class App extends Component {
   render() {
     return (
       <div>
-        <span>{this.state.compteur}</span>
-        <br />
-        <button onClick={this.increment}>+1</button>
+        <h1>App Title</h1>
+        <Composant1 />
       </div>
-    );
+    )
   }
 }
 
 ReactDOM.render(
-  <Composant1 name="world !!!" />,
+  <App />,
   document.getElementById("root")
 );
 
