@@ -2,14 +2,54 @@ import React, {Component} from "react";
 import ReactDOM from "react-dom";
 //? import App from './App';
 //?import reportWebVitals from './reportWebVitals';
-import Composant1 from './components/composant1/Composant1'
+
+const Person = (props) => {
+  return (
+    <li className="list-group-item d-flex flex-row justify-content-between align-items-center">
+      <span>{ ` ${props.person.name} ${props.person.age}`}</span>
+      <button className="btn btn-small btn-danger" onClick={props.deletePerson}>Delete</button>
+    </li>
+  )
+}
+
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      people: [
+        {
+          name: 'Pierre',
+          age: 12
+        },
+        {
+          name: 'Paul',
+          age: 13
+        },
+        {
+          name: 'Jacques',
+          age: 14
+        }
+      ]
+    }
+  }
+
+  deletePerson = (index) => {
+    const people = [... this.state.people];
+    people.splice(index, 1);
+    this.setState({
+      people
+    })
+  }
+
   render() {
     return (
-      <div>
-        <h1>App Title</h1>
-        <Composant1 />
+      <div className="container d-flex flex-column justify-content-center align-items-center">
+        <h1 className="mb-5">People</h1>
+        <ul className="list-group w-100">
+          { this.state.people.map ( (p,index) => <Person person={p} deletePerson={ (index) => this.deletePerson(index)} />)}
+        </ul>
       </div>
     )
   }
