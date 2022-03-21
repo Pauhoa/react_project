@@ -1,26 +1,69 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import './index.css';
 
-const Header = () => <div>Header</div>
-const Body = () => <div>Body</div>
+const AuthContext = React.createContext({ isLoggedin:false})
 
-const Layout = () => {
-  return (
-    <>
-      <Header/>
-      <Body/>
-    </>
-  )
+class Header extends React.Component {
+  static contextType = AuthContext;
+
+  render() {
+    console.log(this.context);
+
+    return (
+      <div className="navbar bg-light">
+        <div>Mon Logo</div>
+        { this.context.auth.isLoggedin ? (
+          <div onClick={ this.context.logout }>Deconnexion</div>
+        ) : (
+          <div onClick={ this.context.login }>Connexion</div>
+        )}
+      </div>
+    );
+  }
+}
+
+class Layout extends Component {
+  render() {
+    return <Header />;
+  }
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      auth: {
+        isLoggedin: true
+      },
+      login: this.login,
+      logout: this.logout
+    }
+  }
+
+  login = () => {
+    this.setState({
+      auth: {
+        isLoggedin: true
+      }
+    })
+  }
+
+  logout = () => {
+    this.setState({
+      auth: {
+        isLoggedin: false
+      }
+    })
+  }
+
   render() {
     return (
       <div className="container-fluide d-flex flex-column">
-        <Layout/>
+        <AuthContext.Provider value={ this.state}>
+          <Layout/>
+        </AuthContext.Provider>
       </div>
-    );
+    )
   }
 }
 
