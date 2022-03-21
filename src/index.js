@@ -1,61 +1,45 @@
-import { toHaveAccessibleDescription } from "@testing-library/jest-dom/dist/matchers";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import "./index.css";
 
-class Composant1 extends Component {
+class Form extends Component {
+  value = {}
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.submit(this.value); 
+  }
+
+  handleChange = (e) => {
+    this.value[e.target.name] = e.target.value;
+  }
+
   render() {
-    return (
-      <div className="card w-50">
-        <div className="card-header">User</div>
-        <div className="card-body">
-          <div className="card-title">{this.props.user.name}</div>
-          <div className="card-text">{this.props.user.city}</div>
-        </div>
-      </div>
-    );
+    return <>{this.props.render({ handleSubmit: this.handleSubmit, handleChange: this.handleChange })}</>;
   }
 }
-
-const WithLoader = (WrappedComposant, dataName) => {
-  return class extends Component {
-    render() {
-      return (
-        <>
-          {this.props[dataName] ? (
-            <WrappedComposant {...this.props} />
-          ) : (
-            <h1>Chargement en cours ...</h1>
-          )}
-        </>
-      );
-    }
-  };
-};
-
-const Composant1WithLoader = WithLoader(Composant1, "user");
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-    };
-
-    setTimeout(() => {
-      this.setState({
-        user: { name: "Nom", city: "Ville" },
-      });
-    }, 2000);
-  }
+  submit = (value) => {
+    console.log(value);
+  };
 
   render() {
     return (
-      <div className="container-fluide d-flex flex-column justify-content-center align-items-center p-5">
-        <Composant1WithLoader user={this.state.user} />
-      </div>
+      <Form
+        submit={this.submit}
+        render={({ handleSubmit, handleChange}) => (
+          <form onSubmit={handleSubmit}>
+            <input name='name' onChange={handleChange} type="text" />
+            <input name='email' onChange={handleChange} type="text" />
+            <button>submit</button>
+          </form>
+        )}
+      />
     );
   }
 }
+
 ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
