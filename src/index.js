@@ -1,26 +1,29 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-const AuthContext = React.createContext({ isLoggedin:false})
+const AuthContext = React.createContext({ isLoggedin: false });
+const ThemeContext = React.createContext("light");
 
-class Header extends React.Component {
-  static contextType = AuthContext;
-
-  render() {
-    console.log(this.context);
-
-    return (
-      <div className="navbar bg-light">
-        <div>Mon Logo</div>
-        { this.context.auth.isLoggedin ? (
-          <div onClick={ this.context.logout }>Deconnexion</div>
-        ) : (
-          <div onClick={ this.context.login }>Connexion</div>
-        )}
-      </div>
-    );
-  }
-}
+const Header = () => {
+  return (
+    <AuthContext.Consumer>
+      {(authContext) => (
+        <ThemeContext.Consumer>
+          {(themeContext) => (
+            <div className="navbar bg-light">
+              <div>Mon Logo  { themeContext }</div>
+              {authContext.auth.isLoggedin ? (
+                <div onClick={authContext.logout}>Deconnexion</div>
+              ) : (
+                <div onClick={authContext.login}>Connexion</div>
+              )}
+            </div>
+          )}
+        </ThemeContext.Consumer>
+      )}
+    </AuthContext.Consumer>
+  );
+};
 
 class Layout extends Component {
   render() {
@@ -33,37 +36,37 @@ class App extends Component {
     super(props);
     this.state = {
       auth: {
-        isLoggedin: true
+        isLoggedin: true,
       },
       login: this.login,
-      logout: this.logout
-    }
+      logout: this.logout,
+    };
   }
 
   login = () => {
     this.setState({
       auth: {
-        isLoggedin: true
-      }
-    })
-  }
+        isLoggedin: true,
+      },
+    });
+  };
 
   logout = () => {
     this.setState({
       auth: {
-        isLoggedin: false
-      }
-    })
-  }
+        isLoggedin: false,
+      },
+    });
+  };
 
   render() {
     return (
       <div className="container-fluide d-flex flex-column">
-        <AuthContext.Provider value={ this.state}>
-          <Layout/>
+        <AuthContext.Provider value={this.state}>
+          <Layout />
         </AuthContext.Provider>
       </div>
-    )
+    );
   }
 }
 
