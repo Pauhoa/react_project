@@ -3,60 +3,30 @@ import ReactDOM from "react-dom";
 //? import App from './App';
 //?import reportWebVitals from './reportWebVitals';
 
-const Person = (props) => {
-  return (
-    <li className="list-group-item d-flex flex-row justify-content-between align-items-center">
-      <span>{ ` ${props.person.name} ${props.person.age}`}</span>
-      <button className="btn btn-small btn-danger" onClick={props.deletePerson}>Delete</button>
-    </li>
-  )
-}
+const Composant1 = () => <h1> Composant 1</h1>
+const Composant2 = () => <h1> Composant 2</h1>
 
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      people: [
-        {
-          id: 1,
-          name: 'Pierre',
-          age: 12
-        },
-        {
-          id: 2,
-          name: 'Paul',
-          age: 13
-        },
-        {
-          id: 3,
-          name: 'Jacques',
-          age: 14
-        }
-      ]
-    }
-  }
-
-  deletePerson = (index) => {
-    const people = [...this.state.people];
-    people.splice(index, 1);
-    this.setState({
-      people
-    })
-  }
-
-  render() {
-    return (
-      <div className="container d-flex flex-column justify-content-center align-items-center">
-        <h1 className="mb-5">People</h1>
-        <ul className="list-group w-100">
-          { this.state.people.map ( (p,index) => <Person key={ p.id} person={p} deletePerson={ (index) => this.deletePerson(index)} />)}
-        </ul>
-      </div>
-    )
-  }
+ render() {
+   return (
+     <div>
+       <div className="p-2 w-100 d-flex border flex-row">
+         <div className="m-2">Composant 1</div>
+         <div className="m-2">Composant 2</div>
+       </div>
+       <div style= { {minHeight: '100vh'} } className="d-flex text-center flex-column justify-content-center">
+        <Composant1 />
+        <Composant2 />
+       </div>
+     </div>
+   )
+ }
 }
+
+ 
+
 
 ReactDOM.render(
   <App />,
