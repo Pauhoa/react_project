@@ -2,8 +2,15 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 class App extends Component {
+
+  userSchema = Yup.object().shape({
+    name: Yup.string().min(3, 'trop court').max(7, 'trop long').required('required'),
+    email: Yup.string().email('email non valide').required('required'),
+    password: Yup.string().min(5, 'trop court')
+  })
 
   submit = (values, actions) => {
     // console.log(actions);
@@ -11,17 +18,7 @@ class App extends Component {
     actions.setSubmitting(false);
   }
   
-  validate(values){
-    console.log({values})
-    let errors = {};
-    if (!values.name){
-      errors.name= 'required'
-    }
-    else if ( values.name.length < 3) {
-      errors.name = 'trop court';
-    }
-    return errors;
-  }
+
 
   render() {
     return (
@@ -29,8 +26,7 @@ class App extends Component {
         <Formik
         onSubmit={ this.submit }
         initialValues={ { name: '', email: '', password: '' } }
-        validate={ this.validate}
-        // validateOnChange={false}
+        validationSchema={this.userSchema}
         >
           { ({
             handleChange,
@@ -48,14 +44,19 @@ class App extends Component {
                   <div className="text-danger">{ errors.name }</div>
                 ) : null }
                 <input name="name" value={ values.name } onChange={ handleChange } onBlur={ handleBlur } type="text" className="form-control" />
-               
               </div>
               <div className="form-group">
                 <label>Email</label>
+                { errors.email && touched.email ?(
+                  <div className="text-danger">{ errors.email }</div>
+                ) : null }
                 <input name="email" value={ values.email } onChange={ handleChange } onBlur={ handleBlur } type="email" className="form-control" />
               </div>
               <div className="form-group">
                 <label>Password</label>
+                { errors.password && touched.password ?(
+                  <div className="text-danger">{ errors.password }</div>
+                ) : null }
                 <input name="password" value={ values.password } onChange={ handleChange } onBlur={ handleBlur } type="password" className="form-control" />
               </div>
               <button type="submit" className="btn btn-primary" disabled={ isSubmitting } >Submit</button>
