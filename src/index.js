@@ -16,16 +16,16 @@ const CustomInput = ({ field, form, ...props }) => {
 
 const CustomError = (props) => {
   return (
-    <div className="text-danger">{props.children}</div>
+    <div className="alert alert-danger">{props.children}</div>
   )
 }
 
 class App extends Component {
 
   userSchema = Yup.object().shape({
-    name: Yup.string().min(3, 'trop court').max(7, 'trop long').required('required'),
-    email: Yup.string().email('email non valide').required('required'),
-    password: Yup.string().min(5, 'trop court')
+    name: Yup.string().min(3, 'Nom trop court').max(7, 'Nom trop long').required('Nom obligatoire'),
+    email: Yup.string().email('Email non valide').required('Email obligatoire'),
+    password: Yup.string().min(5, 'Mot de passe trop court')
   })
 
   submit = (values, actions) => {
