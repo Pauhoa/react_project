@@ -1,8 +1,24 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { Formik } from 'formik';
+import { Formik, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
+
+
+const CustomInput = ({ field, form, ...props }) => {
+  return (
+    <div className="form-group">
+      <label>{field.name}</label>
+      <input {...field} type="text" {...props} className="form-control" />
+    </div>
+  )
+}
+
+const CustomError = (props) => {
+  return (
+    <div className="text-danger">{props.children}</div>
+  )
+}
 
 class App extends Component {
 
@@ -38,27 +54,15 @@ class App extends Component {
             touched
           }) => (
             <form onSubmit={ handleSubmit } className="bg-white border p-5 d-flex flex-column">
-              <div className="form-group">
-                <label>Name</label>
-                { errors.name && touched.name ?(
-                  <div className="text-danger">{ errors.name }</div>
-                ) : null }
-                <input name="name" value={ values.name } onChange={ handleChange } onBlur={ handleBlur } type="text" className="form-control" />
-              </div>
-              <div className="form-group">
-                <label>Email</label>
-                { errors.email && touched.email ?(
-                  <div className="text-danger">{ errors.email }</div>
-                ) : null }
-                <input name="email" value={ values.email } onChange={ handleChange } onBlur={ handleBlur } type="email" className="form-control" />
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                { errors.password && touched.password ?(
-                  <div className="text-danger">{ errors.password }</div>
-                ) : null }
-                <input name="password" value={ values.password } onChange={ handleChange } onBlur={ handleBlur } type="password" className="form-control" />
-              </div>
+              <Field name="name" component={ CustomInput } />
+              <ErrorMessage name="name" component={ CustomError }/>
+              
+              <Field name="email" type="email" component={ CustomInput } />
+              <ErrorMessage name="email" component={ CustomError }/>
+
+              <Field name="password"  type="password"  component={ CustomInput } />
+              <ErrorMessage name="password" component={ CustomError }/>
+
               <button type="submit" className="btn btn-primary" disabled={ isSubmitting } >Submit</button>
             </form>
           )}
