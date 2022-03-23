@@ -5,8 +5,22 @@ import { Formik } from 'formik';
 
 class App extends Component {
 
-  submit = (values) => {
-    console.log(values);
+  submit = (values, actions) => {
+    // console.log(actions);
+    // console.log(values);
+    actions.setSubmitting(false);
+  }
+  
+  validate(values){
+    console.log({values})
+    let errors = {};
+    if (!values.name){
+      errors.name= 'required'
+    }
+    else if ( values.name.length < 3) {
+      errors.name = 'trop court';
+    }
+    return errors;
   }
 
   render() {
@@ -15,18 +29,26 @@ class App extends Component {
         <Formik
         onSubmit={ this.submit }
         initialValues={ { name: '', email: '', password: '' } }
+        validate={ this.validate}
+        // validateOnChange={false}
         >
           { ({
             handleChange,
             handleBlur,
             handleSubmit,
             values,
-            isSubmitting
+            isSubmitting,
+            errors,
+            touched
           }) => (
             <form onSubmit={ handleSubmit } className="bg-white border p-5 d-flex flex-column">
               <div className="form-group">
                 <label>Name</label>
+                { errors.name && touched.name ?(
+                  <div className="text-danger">{ errors.name }</div>
+                ) : null }
                 <input name="name" value={ values.name } onChange={ handleChange } onBlur={ handleBlur } type="text" className="form-control" />
+               
               </div>
               <div className="form-group">
                 <label>Email</label>
