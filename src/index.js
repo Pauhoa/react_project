@@ -3,56 +3,40 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { Formik } from 'formik';
 
-class App extends React.Component {
+class App extends Component {
 
-  submit = values => {
+  submit = (values) => {
     console.log(values);
   }
 
   render() {
     return (
-      <div className="container-fluid p-5 bg-light
-      d-flex flex-column justify-content-center align-items-center">
+      <div className="container-fluid p-5 bg-light d-flex flex-column justify-content-center align-items-center">
         <Formik
-          onSubmit={this.submit}
-          initialValues={{name: '', email: '', password: ''}}
+        onSubmit={ this.submit }
+        initialValues={ { name: '', email: '', password: '' } }
         >
-          {({values,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting}) => (
+          { ({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            isSubmitting
+          }) => (
             <form onSubmit={ handleSubmit } className="bg-white border p-5 d-flex flex-column">
               <div className="form-group">
-                <label>Nom</label>
-                <input type="text"
-                      name="name"
-                      className="form-control"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.name} />
+                <label>Name</label>
+                <input name="name" value={ values.name } onChange={ handleChange } onBlur={ handleBlur } type="text" className="form-control" />
               </div>
               <div className="form-group">
-                <label>Adresse email</label>
-                <input type="email"
-                      name="email"
-                      className="form-control"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email} />
+                <label>Email</label>
+                <input name="email" value={ values.email } onChange={ handleChange } onBlur={ handleBlur } type="email" className="form-control" />
               </div>
               <div className="form-group">
-                <label>Mot de passe</label>
-                <input type="password"
-                      name="password"
-                      className="form-control"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password} />
+                <label>Password</label>
+                <input name="password" value={ values.password } onChange={ handleChange } onBlur={ handleBlur } type="password" className="form-control" />
               </div>
-              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-                Envoyer
-              </button>
+              <button type="submit" className="btn btn-primary" disabled={ isSubmitting } >Submit</button>
             </form>
           )}
         </Formik>
